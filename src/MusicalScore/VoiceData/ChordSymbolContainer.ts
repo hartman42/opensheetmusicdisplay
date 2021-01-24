@@ -3,6 +3,7 @@ import {KeyInstruction} from "./Instructions/KeyInstruction";
 import {MusicSheetCalculator} from "../Graphical/MusicSheetCalculator";
 import {AccidentalEnum} from "../../Common/DataObjects/Pitch";
 import { EngravingRules } from "../Graphical/EngravingRules";
+import log from "loglevel";
 
 export class ChordSymbolContainer {
     private rootPitch: Pitch;
@@ -151,6 +152,7 @@ export class ChordSymbolContainer {
             text += Pitch.getNoteEnumString(transposedBassPitch.FundamentalNote);
             text += this.getTextForAccidental(transposedBassPitch.Accidental);
         }
+        log.debug("OSMD: chord text: " + text);
         return text;
     }
 

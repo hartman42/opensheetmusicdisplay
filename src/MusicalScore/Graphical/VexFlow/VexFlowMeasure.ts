@@ -1187,6 +1187,24 @@ export class VexFlowMeasure extends GraphicalMeasure {
                     }
                 }
 
+                //I have a problem with my Daytime composition that I originally exported from Notion
+                //It seems to lock up on measure 6 at the third note.
+                //The only thing I see when I look at the vfStaveNote is that the stave is null for the xml version
+                //while the musicxml version (exported from MuseScore 3.0) shows a Stave value.
+
+                const measureNumber: number = voiceEntry.parentStaffEntry.parentMeasure.MeasureNumber;
+
+                const r: number = voiceEntry.parentStaffEntry.relInMeasureTimestamp.RealValue;
+
+                // const stave: Vex.Flow.Stave = vexFlowVoiceEntry.vfStaveNote;
+                const stave: any = (vexFlowVoiceEntry.vfStaveNote as Vex.Flow.StaveNote);
+
+                if (measureNumber === 6 && r > 0.33) {
+                    log.debug("OSMD:", "stave:", stave, "measureNumber:", measureNumber);
+                    // return;
+                    continue;
+                }
+
                 this.vfVoices[voice.VoiceId].addTickable(vexFlowVoiceEntry.vfStaveNote);
             }
         }

@@ -470,7 +470,7 @@ import * as svg2pdf from '../node_modules/svg2pdf.js/dist/svg2pdf.min';
             // tripletsBracketed: true,
             // tupletsRatioed: true, // unconventional; renders ratios for tuplets (3:2 instead of 3 for triplets)
         });
-        openSheetMusicDisplay.setLogLevel('info'); // set this to 'debug' if you want to see more detailed control flow information in console
+        openSheetMusicDisplay.setLogLevel('trace'); // set this to 'debug' if you want to see more detailed control flow information in console
         document.body.appendChild(canvas);
 
         window.addEventListener("keydown", function (e) {
@@ -513,7 +513,7 @@ import * as svg2pdf from '../node_modules/svg2pdf.js/dist/svg2pdf.min';
                 // clears the canvas element
                 canvas.innerHTML = "";
                 openSheetMusicDisplay = new OpenSheetMusicDisplay(canvas, { backend: value });
-                openSheetMusicDisplay.setLogLevel('info'); // set this to 'debug' if you want to get more detailed control flow information
+                openSheetMusicDisplay.setLogLevel('trace'); // set this to 'debug' if you want to get more detailed control flow information
             } else {
                 // alternative, doesn't work yet, see setOptions():
                 openSheetMusicDisplay.setOptions({ backend: value });
