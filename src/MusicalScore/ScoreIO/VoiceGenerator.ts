@@ -471,6 +471,9 @@ export class VoiceGenerator {
     if ((noteheadShapeXml !== undefined && noteheadShapeXml !== "normal") || noteheadFilledXml !== undefined) {
       note.Notehead = new Notehead(note, noteheadShapeXml, noteheadFilledXml);
     } // if normal, leave note head undefined to save processing/runtime
+    if (stemDirectionXml === StemDirectionType.None) {
+      stemColorXml = "#00000000";  // just setting this to transparent for now
+    }
     this.currentVoiceEntry.Notes.push(note);
     this.currentVoiceEntry.StemDirectionXml = stemDirectionXml;
     if (stemColorXml) {
@@ -902,8 +905,8 @@ export class VoiceGenerator {
         const tieCandidateNote: TabNote = candidateNote as TabNote;
         if (tie.Pitch.FundamentalNote === candidateNote.Pitch.FundamentalNote && tie.Pitch.Octave === candidateNote.Pitch.Octave) {
           return parseInt(key, 10);
-        } else if (tieTabNote.StringNumber !== undefined) {
-          if (tieTabNote.StringNumber === tieCandidateNote.StringNumber) {
+        } else if (tieTabNote.StringNumberTab !== undefined) {
+          if (tieTabNote.StringNumberTab === tieCandidateNote.StringNumberTab) {
             return parseInt(key, 10);
           }
         }
