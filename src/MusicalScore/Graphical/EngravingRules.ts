@@ -182,6 +182,11 @@ export class EngravingRules {
     public SlurSlopeMaxAngle: number;
     public SlurTangentMinAngle: number;
     public SlurTangentMaxAngle: number;
+    public SlurHeightFactor: number;
+    public SlurHeightFlattenLongSlursFactorByWidth: number;
+    public SlurHeightFlattenLongSlursFactorByAngle: number;
+    public SlurHeightFlattenLongSlursCutoffAngle: number;
+    public SlurHeightFlattenLongSlursCutoffWidth: number;
     public SlursStartingAtSameStaffEntryYOffset: number;
     public InstantaneousTempoTextHeight: number;
     public ContinuousDynamicTextHeight: number;
@@ -280,6 +285,7 @@ export class EngravingRules {
     public ArticulationPlacementFromXML: boolean;
     /** Position of fingering label in relation to corresponding note (left, right supported, above, below experimental) */
     public FingeringPosition: PlacementEnum;
+    public FingeringPositionFromXML: boolean;
     public FingeringInsideStafflines: boolean;
     public FingeringLabelFontHeight: number;
     public FingeringOffsetX: number;
@@ -468,6 +474,11 @@ export class EngravingRules {
         this.SlurSlopeMaxAngle = 15.0;
         this.SlurTangentMinAngle = 30.0;
         this.SlurTangentMaxAngle = 80.0;
+        this.SlurHeightFactor = 1; // 1 = 100% (standard height). 2 = 100% flattening of all slurs.
+        this.SlurHeightFlattenLongSlursFactorByWidth = 0.24; // additional flattening for long slurs the longer they are.
+        this.SlurHeightFlattenLongSlursFactorByAngle = 0.36; // when one of these factors is high, increasing the other has a very strong effect.
+        this.SlurHeightFlattenLongSlursCutoffAngle = 47;
+        this.SlurHeightFlattenLongSlursCutoffWidth = 16; // 15 ~ slur between measure's first notes in 4/4. 14 -> problem with test_slurs_highNotes
         this.SlursStartingAtSameStaffEntryYOffset = 0.8;
 
         // Repetitions
@@ -587,6 +598,7 @@ export class EngravingRules {
         this.RenderTimeSignatures = true;
         this.ArticulationPlacementFromXML = true;
         this.FingeringPosition = PlacementEnum.Left; // easier to get bounding box, and safer for vertical layout
+        this.FingeringPositionFromXML = true;
         this.FingeringInsideStafflines = false;
         this.FingeringLabelFontHeight = 1.7;
         this.FingeringOffsetX = 0.0;
