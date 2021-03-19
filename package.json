@@ -34,7 +34,8 @@
     "test:visual": "bash ./test/Util/visual_regression.sh ./visual_regression",
     "test:visual:build": "npm run build:webpack && npm run generate:current && npm run test:visual",
     "test:visual:singletest": "sh ./test/Util/visual_regression.sh ./visual_regression Beethoven",
-    "fix-memory-limit": "cross-env NODE_OPTIONS=--max_old_space_size=4096"
+    "fix-memory-limit": "cross-env NODE_OPTIONS=--max_old_space_size=4096",
+    "turkey": "npm run lint && npm run test && npm run build && npm run generate:current && npm run test:visual"
   },
   "pre-commit": [
     "lint"

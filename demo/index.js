@@ -2,6 +2,7 @@ import { OpenSheetMusicDisplay } from '../src/OpenSheetMusicDisplay/OpenSheetMus
 import { BackendType } from '../src/OpenSheetMusicDisplay/OSMDOptions';
 import * as jsPDF  from '../node_modules/jspdf-yworks/dist/jspdf.min';
 import * as svg2pdf from '../node_modules/svg2pdf.js/dist/svg2pdf.min';
+import { TransposeCalculator } from "../src/Plugins/Transpose/TransposeCalculator";
 // import { Fraction } from '../src/Common/DataObjects/Fraction';
 
 /*jslint browser:true */
@@ -11,6 +12,7 @@ import * as svg2pdf from '../node_modules/svg2pdf.js/dist/svg2pdf.min';
     var sampleFolder = process.env.STATIC_FILES_SUBFOLDER ? process.env.STATIC_FILES_SUBFOLDER + "/" : "",
         samples = {
             "Beethoven, L.v. - An die ferne Geliebte": "Beethoven_AnDieFerneGeliebte.xml",
+            "Ups and Downs.xml": "Ups and Downs.xml",
             "Clementi, M. - Sonatina Op.36 No.1 Pt.1": "MuzioClementi_SonatinaOpus36No1_Part1.xml",
             "Clementi, M. - Sonatina Op.36 No.1 Pt.2": "MuzioClementi_SonatinaOpus36No1_Part2.xml",
             "Clementi, M. - Sonatina Op.36 No.3 Pt.1": "MuzioClementi_SonatinaOpus36No3_Part1.xml",
@@ -95,7 +97,9 @@ import * as svg2pdf from '../node_modules/svg2pdf.js/dist/svg2pdf.min';
         debugReRenderBtn,
         debugClearBtn,
         selectPageSizes,
-        printPdfBtns;
+        printPdfBtns,
+        transpose,
+        transposeBtn;
     
     // manage option setting and resetting for specific samples, e.g. in the autobeam sample autobeam is set to true, otherwise reset to previous state
     // TODO design a more elegant option state saving & restoring system, though that requires saving the options state in OSMD
@@ -245,6 +249,8 @@ import * as svg2pdf from '../node_modules/svg2pdf.js/dist/svg2pdf.min';
         printPdfBtns = [];
         printPdfBtns.push(document.getElementById("print-pdf-btn"));
         printPdfBtns.push(document.getElementById("print-pdf-btn-optional"));
+        transpose = document.getElementById("transpose");
+        transposeBtn = document.getElementById("transpose-btn");
 
         //var defaultDisplayVisibleValue = "block"; // TODO in some browsers flow could be the better/default value
         var defaultVisibilityValue = "visible";
@@ -520,6 +526,17 @@ import * as svg2pdf from '../node_modules/svg2pdf.js/dist/svg2pdf.min';
             console.log("[OSMD] selectSampleOnChange addEventListener change");
             // selectSampleOnChange();
         });
+
+        if (transposeBtn && transpose) {
+            openSheetMusicDisplay.TransposeCalculator = new TransposeCalculator();
+
+            transposeBtn.onclick = function () {
+                var transposeValue = parseInt(transpose.value);
+                openSheetMusicDisplay.Sheet.Transpose = transposeValue;
+                openSheetMusicDisplay.updateGraphic();
+                rerender();
+            };
+        }
 
         // TODO after selectSampleOnChange, the resize handler triggers immediately,
         //   so we render twice at the start of the demo.
